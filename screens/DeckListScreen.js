@@ -61,7 +61,7 @@ class DeckListScreen extends Component {
         onPress={() => this.props.navigation.navigate("Deck", { deck })}
       >
         <Text style={styles.deckName}>{deck.title}</Text>
-        <Text style={styles.deckCardCount}># of cards: {deck.cardNum}</Text>
+        <Text style={styles.deckCardCount}>{deck.cardNum} cards</Text>
       </TouchableOpacity>
     );
   });
@@ -69,12 +69,6 @@ class DeckListScreen extends Component {
     return (
       <View style={styles.container}>
         <View style={styles.deckList}>{this.deckList}</View>
-        <Button
-          title="to deck"
-          onPress={() => this.props.navigation.navigate("Deck")}
-        >
-          Go to Deck
-        </Button>
       </View>
     );
   }
