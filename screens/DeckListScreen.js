@@ -56,10 +56,10 @@ class DeckListScreen extends Component {
   };
 
   componentDidMount() {
-    self = this;
     AsyncStorage.getItem("decks", (err, result) => {
       if (!err) {
-        self.setState({ decks: JSON.parse(result) });
+        this.setState({ decks: JSON.parse(result) });
+        console.warn(this.state.decks);
       }
     });
   }
