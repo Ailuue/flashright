@@ -14,7 +14,7 @@ class ResultsScreen extends Component {
     return (
       <View style={styles.container}>
         <Text style={styles.results}>
-          Your Results: {score / deck.cards.length * 100}%
+          Your Results: {Math.floor(score / deck.cards.length * 100)}%
         </Text>
         <Text style={styles.correct}>
           You got {score} out of {deck.cards.length} correct.
@@ -36,7 +36,8 @@ const styles = StyleSheet.create({
   },
   correct: {
     textAlign: "center",
-    fontSize: 24
+    fontSize: 24,
+    marginBottom: 50
   }
 });
 
