@@ -6,12 +6,14 @@ import NewDeckScreen from "./screens/NewDeckScreen";
 import DeckScreen from "./screens/DeckScreen";
 import AddCardScreen from "./screens/AddCardScreen";
 import QuizScreen from "./screens/QuizScreen";
+import ResultsScreen from "./screens/ResultsScreen";
 
 const DecksTab = createStackNavigator({
   DeckList: DeckListScreen,
   Deck: DeckScreen,
   AddCard: AddCardScreen,
-  Quiz: QuizScreen
+  Quiz: QuizScreen,
+  Results: ResultsScreen
 });
 
 const AppNavigator = createTabNavigator({
@@ -24,5 +26,3 @@ export default class App extends React.Component {
     return <AppNavigator />;
   }
 }
-
-

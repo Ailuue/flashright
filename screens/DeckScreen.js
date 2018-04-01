@@ -22,19 +22,17 @@ class DeskScreen extends Component {
         </View>
         <View style={styles.buttons}>
           <Button
-            title="add card"
+            title="Add Card"
             color="blue"
             onPress={() => this.props.navigation.navigate("AddCard")}
-          >
-            Add Card
-          </Button>
-          <Button
-            title="start quiz"
-            color="green"
-            onPress={() => this.props.navigation.navigate("Quiz")}
-          >
-            Start Quiz
-          </Button>
+          />
+          {deck.cards && (
+            <Button
+              title="Start Quiz"
+              color="green"
+              onPress={() => this.props.navigation.navigate("Quiz", { deck })}
+            />
+          )}
         </View>
       </View>
     );
