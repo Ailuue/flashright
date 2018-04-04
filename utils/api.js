@@ -13,9 +13,23 @@ export function addDeck(deckName) {
   AsyncStorage.getItem("decks", (err, result) => {
     const newDeckList = JSON.parse(result);
     newDeckList.push(newDeck);
-    AsyncStorage.setItem("decks", JSON.stringify(newDeckList), () =>
-      AsyncStorage.getItem("decks", (err, result) => console.warn(result))
-    );
+    AsyncStorage.setItem("decks", JSON.stringify(newDeckList));
+  });
+}
+
+export function addCard(deck, question, answer) {
+  const newCard = {
+    question: question,
+    answer: answer
+  };
+  AsyncStorage.getItem("decks", (err, result) => {
+    const deckList = JSON.parse(result);
+    const newDeck = deckList.map(item => {
+      if (item.title === deck.title) {
+        item.cards.push(newCard);
+      }
+    });
+    AsyncStorage.setItem("decks", JSON.stringify(newDeck));
   });
 }
 

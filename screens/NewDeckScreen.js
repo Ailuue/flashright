@@ -22,7 +22,7 @@ class NewDeckScreen extends Component {
 
   onSubmit = () => {
     addDeck(this.state.deckName);
-    this.props.navigation.navigate("DECKS");
+    this.props.navigation.navigate("DECKS", { updated: true });
   };
   render() {
     const { deckName } = this.state;

@@ -46,7 +46,9 @@ class WelcomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Welcome</Text>
+        <Text style={styles.welcome}>
+          Welcome to <Text style={styles.flashright}>Flashright</Text>
+        </Text>
         <Button
           title="Get Started"
           onPress={() => this.props.navigation.navigate("APP")}
@@ -61,6 +63,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     alignItems: "center",
     justifyContent: "center"
+  },
+  welcome: {
+    fontSize: 48,
+    textAlign: "center",
+    marginBottom: 100
+  },
+  flashright: {
+    color: "blue"
   }
 });
 export default WelcomeScreen;

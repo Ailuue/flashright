@@ -4,7 +4,6 @@ import {
   ScrollView,
   TouchableOpacity,
   Text,
-  Button,
   StyleSheet,
   Dimensions,
   AsyncStorage
@@ -13,73 +12,64 @@ import {
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 
-// const defaultDecks = [
-//   {
-//     title: "React",
-//     cardNum: 3,
-//     cards: [
-//       {
-//         question: "Where should you make API calls?",
-//         answer: "componentDidMount"
-//       },
-//       {
-//         question: "What is a HOC?",
-//         answer:
-//           "A High Order Component wraps another component to pass through it."
-//       },
-//       {
-//         question: "How do you get better at React?",
-//         answer: "Practice!"
-//       }
-//     ]
-//   },
-//   {
-//     title: "React Native",
-//     cardNum: 1,
-//     cards: [
-//       {
-//         question: "How do you make a 'div' in React Native?",
-//         answer: "<View></View>"
-//       }
-//     ]
-//   },
-//   {
-//     title: "My New Deck",
-//     cardNum: 0,
-//     cards: null
-//   }
-// ];
-
 class DeckListScreen extends Component {
   state = {
-    decks: []
+    decks: [],
+    updated: false
   };
 
   componentDidMount() {
+    this.updateDeckList();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.isFocused !== this.props.isFocused) {
+      console.warn("worked");
+    }
+  }
+
+  // componentWillReceiveProps(nextProps) {
+  //   try {
+  //     if (nextProps.navigation.state.params.updated) {
+  //       this.setState({ updated: true });
+  //       console.warn("Changed");
+  //     }
+  //   } catch () {}
+  // AsyncStorage.getItem("decks", (err, result) => {
+  //   if (!err) {
+  //     console.warn("Hello");
+  //     if (JSON.stringify(prevState.decks) !== result) {
+  //       this.setState({ decks: JSON.parse(result) });
+  //     }
+  //   }
+  // });
+  // }
+
+  updateDeckList() {
     AsyncStorage.getItem("decks", (err, result) => {
       if (!err) {
+        console.warn("Hello");
         this.setState({ decks: JSON.parse(result) });
-        console.warn(this.state.decks);
       }
     });
   }
 
-  deckList = this.state.decks.map(deck => {
-    return (
-      <TouchableOpacity
-        style={styles.deck}
-        key={deck.title}
-        onPress={() => this.props.navigation.navigate("Deck", { deck })}
-      >
-        <Text style={styles.deckName}>{deck.title}</Text>
-        <Text style={styles.deckCardCount}>{deck.cardNum} cards</Text>
-      </TouchableOpacity>
-    );
-  });
   render() {
+    deckList = this.state.decks.map(deck => {
+      return (
+        <TouchableOpacity
+          style={styles.deck}
+          key={deck.title}
+          onPress={() => this.props.navigation.navigate("Deck", { deck })}
+        >
+          <Text style={styles.deckName}>{deck.title}</Text>
+          <Text style={styles.deckCardCount}>{deck.cardNum} cards</Text>
+        </TouchableOpacity>
+      );
+    });
+
     return (
       <ScrollView style={styles.container}>
-        <View style={styles.deckList}>{this.deckList}</View>
+        <View style={styles.deckList}>{deckList}</View>
       </ScrollView>
     );
   }

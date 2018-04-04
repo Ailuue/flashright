@@ -1,16 +1,36 @@
 import React, { Component } from "react";
-import { View, Text, Button, StyleSheet, Dimensions } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  Dimensions,
+  AsyncStorage
+} from "react-native";
 
 const WINDOW_WIDTH = Dimensions.get("window").width;
 const WINDOW_HEIGHT = Dimensions.get("window").height;
 
 class DeskScreen extends Component {
   state = {
-    deck: null
+    deck: {}
   };
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({ deck: this.props.navigation.state.params.deck });
+  }
+
+  componentDidUpdate() {
+    if (this.state.deck) {
+      AsyncStorage.getItem("decks", (err, result) => {
+        if (!err) {
+          const newDeck = JSON.parse(result).filter(item => {
+            return item.title === this.state.deck.title;
+          });
+          this.setState({ decks: newDeck });
+        }
+      });
+    }
   }
   render() {
     const { deck } = this.state;
@@ -24,7 +44,7 @@ class DeskScreen extends Component {
           <Button
             title="Add Card"
             color="blue"
-            onPress={() => this.props.navigation.navigate("AddCard")}
+            onPress={() => this.props.navigation.navigate("AddCard", { deck })}
           />
           {deck.cards && (
             <Button
