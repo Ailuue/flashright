@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   ScrollView,
@@ -7,10 +7,13 @@ import {
   StyleSheet,
   Dimensions,
   AsyncStorage
-} from "react-native";
+} from 'react-native';
+import { connect } from 'react-redux';
 
-const WINDOW_WIDTH = Dimensions.get("window").width;
-const WINDOW_HEIGHT = Dimensions.get("window").height;
+import { setDecks } from '../store/actions/deckActions';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 class DeckListScreen extends Component {
   state = {
@@ -23,7 +26,7 @@ class DeckListScreen extends Component {
   }
   componentDidUpdate(prevProps) {
     if (prevProps.isFocused !== this.props.isFocused) {
-      console.warn("worked");
+      console.warn('worked');
     }
   }
 
@@ -45,27 +48,29 @@ class DeckListScreen extends Component {
   // }
 
   updateDeckList() {
-    AsyncStorage.getItem("decks", (err, result) => {
-      if (!err) {
-        console.warn("Hello");
-        this.setState({ decks: JSON.parse(result) });
-      }
-    });
+    this.props.setDecks();
   }
 
   render() {
-    deckList = this.state.decks.map(deck => {
-      return (
-        <TouchableOpacity
-          style={styles.deck}
-          key={deck.title}
-          onPress={() => this.props.navigation.navigate("Deck", { deck })}
-        >
-          <Text style={styles.deckName}>{deck.title}</Text>
-          <Text style={styles.deckCardCount}>{deck.cardNum} cards</Text>
-        </TouchableOpacity>
-      );
-    });
+    const { decks } = this.props.decks;
+    let deckList;
+
+    if (decks && Object.keys(decks).length > 0) {
+      deckList = decks.map(deck => {
+        return (
+          <TouchableOpacity
+            style={styles.deck}
+            key={deck.title}
+            onPress={() => this.props.navigation.navigate('Deck', { deck })}
+          >
+            <Text style={styles.deckName}>{deck.title}</Text>
+            <Text style={styles.deckCardCount}>{deck.cardNum} cards</Text>
+          </TouchableOpacity>
+        );
+      });
+    } else {
+      deckList = <Text />;
+    }
 
     return (
       <ScrollView style={styles.container}>
@@ -75,12 +80,16 @@ class DeckListScreen extends Component {
   }
 }
 
-export default DeckListScreen;
+const mapStateToProps = state => ({
+  decks: state.decks
+});
+
+export default connect(mapStateToProps, { setDecks })(DeckListScreen);
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff'
     // alignItems: "center",
     // justifyContent: "center"
   },
@@ -88,19 +97,19 @@ const styles = StyleSheet.create({
     flex: 1,
     width: WINDOW_WIDTH,
     height: WINDOW_HEIGHT,
-    justifyContent: "center"
+    justifyContent: 'center'
   },
   deck: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     borderWidth: 0.5,
-    borderColor: "black"
+    borderColor: 'black'
   },
   deckName: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 24
   },
   deckCardCount: {
-    textAlign: "center"
+    textAlign: 'center'
   }
 });
