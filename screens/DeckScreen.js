@@ -7,21 +7,14 @@ import {
   Dimensions,
   AsyncStorage
 } from 'react-native';
+import { connect } from 'react-redux';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 class DeskScreen extends Component {
-  state = {
-    deck: {}
-  };
-
-  componentDidMount() {
-    this.setState({ deck: this.props.navigation.state.params.deck });
-  }
-
   render() {
-    const { deck } = this.state;
+    const deck = this.props.decks.currentDeck;
     return (
       <View style={styles.container}>
         <View style={styles.labels}>
@@ -71,4 +64,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default DeskScreen;
+const mapStateToProps = state => ({
+  decks: state.decks
+});
+
+export default connect(mapStateToProps)(DeskScreen);

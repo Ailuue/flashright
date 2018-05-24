@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { getDecks } from '../store/actions/deckActions';
+import { getDecks, setCurrentDeck } from '../store/actions/deckActions';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -35,7 +35,10 @@ class DeckListScreen extends Component {
           <TouchableOpacity
             style={styles.deck}
             key={deck.title}
-            onPress={() => this.props.navigation.navigate('Deck', { deck })}
+            onPress={() => {
+              this.props.setCurrentDeck(deck);
+              this.props.navigation.navigate('Deck');
+            }}
           >
             <Text style={styles.deckName}>{deck.title}</Text>
             <Text style={styles.deckCardCount}>{deck.cardNum} cards</Text>
@@ -57,8 +60,6 @@ class DeckListScreen extends Component {
 const mapStateToProps = state => ({
   decks: state.decks
 });
-
-export default connect(mapStateToProps, { getDecks })(DeckListScreen);
 
 const styles = StyleSheet.create({
   container: {
@@ -87,3 +88,7 @@ const styles = StyleSheet.create({
     textAlign: 'center'
   }
 });
+
+export default connect(mapStateToProps, { getDecks, setCurrentDeck })(
+  DeckListScreen
+);

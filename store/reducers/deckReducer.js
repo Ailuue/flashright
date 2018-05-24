@@ -1,4 +1,4 @@
-import { GET_DECKS } from '../actions/types';
+import { GET_DECKS, SET_CURRENT_DECK } from '../actions/types';
 
 const initialState = {
   decks: {},
@@ -13,6 +13,12 @@ export default function(state = initialState, action) {
         decks: action.payload,
         currentDeck: {}
       };
+    case SET_CURRENT_DECK: {
+      return {
+        ...state,
+        currentDeck: action.payload
+      };
+    }
     default:
       return state;
   }

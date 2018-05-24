@@ -1,13 +1,11 @@
-import { GET_DECKS, ADD_DECK } from './types';
+import { GET_DECKS, ADD_DECK, SET_CURRENT_DECK } from './types';
 import { AsyncStorage } from 'react-native';
 
 export const getDecks = () => dispatch => {
   AsyncStorage.getItem('decks', (err, result) => {
     if (!err) {
-      console.warn('hi');
       dispatch({ type: GET_DECKS, payload: JSON.parse(result) });
     } else {
-      console.warn('no');
       dispatch({ type: GET_DECKS, payload: {} });
     }
   });
@@ -27,4 +25,11 @@ export const addDeck = name => dispatch => {
     );
   });
   getDecks();
+};
+
+export const setCurrentDeck = deck => {
+  return {
+    type: SET_CURRENT_DECK,
+    payload: deck
+  };
 };
