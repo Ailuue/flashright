@@ -1,8 +1,8 @@
-import React, { Component } from "react";
-import { View, Text, Button, StyleSheet } from "react-native";
+import React, { Component } from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 class QuizScreen extends Component {
   state = {
-    deck: null,
     current: null,
     answer: false,
     score: 0
@@ -10,34 +10,33 @@ class QuizScreen extends Component {
 
   componentWillMount() {
     this.setState({
-      deck: this.props.navigation.state.params.deck,
-      current: this.props.navigation.state.params.deck.cards[0]
+      current: this.props.deck.cards[0]
     });
   }
 
   nextCard = score => {
-    const index = this.state.deck.cards.findIndex(
+    const index = this.props.deck.cards.findIndex(
       value => value === this.state.current
     );
-    if (index === this.state.deck.cards.length - 1) {
-      this.props.navigation.navigate("Results", {
-        deck: this.state.deck,
-        score: score === "correct" ? this.state.score + 1 : this.state.score
+    if (index === this.props.deck.cards.length - 1) {
+      this.props.navigation.navigate('Results', {
+        score: score === 'correct' ? this.state.score + 1 : this.state.score
       });
       this.setState({ score: 0 });
     } else {
       this.setState(prevState => {
         return {
-          current: this.state.deck.cards[index + 1],
+          current: this.props.deck.cards[index + 1],
           answer: false,
-          score: score === "correct" ? prevState.score + 1 : prevState.score
+          score: score === 'correct' ? prevState.score + 1 : prevState.score
         };
       });
     }
   };
 
   render() {
-    const { deck, answer, current } = this.state;
+    const { answer, current } = this.state;
+    const { deck } = this.props;
     if (!answer) {
       return (
         <View style={styles.container}>
@@ -57,12 +56,12 @@ class QuizScreen extends Component {
           <Button
             title="Correct"
             color="green"
-            onPress={() => this.nextCard("correct")}
+            onPress={() => this.nextCard('correct')}
           />
           <Button
             title="Incorrect"
             color="red"
-            onPress={() => this.nextCard("incorrect")}
+            onPress={() => this.nextCard('incorrect')}
           />
         </View>
       );
@@ -73,13 +72,18 @@ class QuizScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
-    justifyContent: "center"
+    backgroundColor: '#FFF',
+    justifyContent: 'center'
   },
   QA: {
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 36,
     marginBottom: 70
   }
 });
-export default QuizScreen;
+
+const mapStateToProps = state => ({
+  deck: state.decks.currentDeck
+});
+
+export default connect(mapStateToProps)(QuizScreen);

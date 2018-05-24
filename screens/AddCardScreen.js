@@ -1,21 +1,23 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
   TextInput,
-  Button, 
+  Button,
   StyleSheet,
   Dimensions
-} from "react-native";
-import { addCard } from "../utils/api";
+} from 'react-native';
+import { connect } from 'react-redux';
 
-const WINDOW_WIDTH = Dimensions.get("window").width;
-const WINDOW_HEIGHT = Dimensions.get("window").height;
+import { addCard } from '../store/actions/deckActions';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 
 class AddCardScreen extends Component {
   state = {
-    question: "",
-    answer: ""
+    question: '',
+    answer: ''
   };
 
   handleQuestionChange = question => {
@@ -27,9 +29,9 @@ class AddCardScreen extends Component {
   };
 
   onSubmit = () => {
-    const { deck } = this.props.navigation.state.params;
-    addCard(deck, this.state.question, this.state.answer);
-    this.props.navigation.navigate("Deck");
+    const { deck } = this.props;
+    this.props.addCard(deck, this.state.question, this.state.answer);
+    this.props.navigation.navigate('Deck');
   };
 
   render() {
@@ -58,17 +60,22 @@ class AddCardScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   input: {
     marginTop: 100,
     borderWidth: 1,
-    borderColor: "black",
-    textAlign: "center",
+    borderColor: 'black',
+    textAlign: 'center',
     width: WINDOW_WIDTH * 0.9,
     height: 40
   }
 });
-export default AddCardScreen;
+
+const mapStateToProps = state => ({
+  deck: state.decks.currentDeck
+});
+
+export default connect(mapStateToProps, { addCard })(AddCardScreen);

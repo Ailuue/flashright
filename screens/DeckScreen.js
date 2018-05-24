@@ -12,9 +12,10 @@ import { connect } from 'react-redux';
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
 
-class DeskScreen extends Component {
+class DeckScreen extends Component {
   render() {
-    const deck = this.props.decks.currentDeck;
+    const { deck } = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.labels}>
@@ -25,13 +26,13 @@ class DeskScreen extends Component {
           <Button
             title="Add Card"
             color="blue"
-            onPress={() => this.props.navigation.navigate('AddCard', { deck })}
+            onPress={() => this.props.navigation.navigate('AddCard')}
           />
-          {deck.cards && (
+          {deck.cards.length > 0 && (
             <Button
               title="Start Quiz"
               color="green"
-              onPress={() => this.props.navigation.navigate('Quiz', { deck })}
+              onPress={() => this.props.navigation.navigate('Quiz')}
             />
           )}
         </View>
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
 });
 
 const mapStateToProps = state => ({
-  decks: state.decks
+  deck: state.decks.currentDeck
 });
 
-export default connect(mapStateToProps)(DeskScreen);
+export default connect(mapStateToProps)(DeckScreen);
