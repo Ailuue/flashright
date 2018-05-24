@@ -11,6 +11,10 @@ import {
 import { connect } from 'react-redux';
 
 import { getDecks, setCurrentDeck } from '../store/actions/deckActions';
+import {
+  clearLocalNotification,
+  setLocalNotification
+} from '../utils/notifications';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -23,6 +27,7 @@ class DeckListScreen extends Component {
 
   componentDidMount() {
     this.props.getDecks();
+    clearLocalNotification().then(setLocalNotification);
   }
 
   render() {

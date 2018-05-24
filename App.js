@@ -16,6 +16,7 @@ import AddCardScreen from './screens/AddCardScreen';
 import QuizScreen from './screens/QuizScreen';
 import ResultsScreen from './screens/ResultsScreen';
 import WelcomeScreen from './screens/WelcomeScreen';
+import { setLocalNotification } from './utils/notifications';
 
 const middleware = [thunk];
 const state = {};
@@ -44,6 +45,10 @@ const SwitchNavigator = createSwitchNavigator({
 });
 
 export default class App extends React.Component {
+  componentDidMount() {
+    setLocalNotification();
+  }
+
   render() {
     return (
       <Provider store={store}>
