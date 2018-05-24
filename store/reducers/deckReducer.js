@@ -1,4 +1,4 @@
-import { SET_DECKS } from '../actions/types';
+import { GET_DECKS } from '../actions/types';
 
 const initialState = {
   decks: {},
@@ -7,7 +7,7 @@ const initialState = {
 
 export default function(state = initialState, action) {
   switch (action.type) {
-    case SET_DECKS:
+    case GET_DECKS:
       return {
         ...state,
         decks: action.payload,

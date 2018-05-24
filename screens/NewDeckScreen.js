@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component } from 'react';
 import {
   View,
   Text,
@@ -6,14 +6,16 @@ import {
   Button,
   StyleSheet,
   Dimensions
-} from "react-native";
-import { addDeck } from "../utils/api";
+} from 'react-native';
+import { connect } from 'react-redux';
 
-const WINDOW_WIDTH = Dimensions.get("window").width;
-const WINDOW_HEIGHT = Dimensions.get("window").height;
+import { addDeck } from '../store/actions/deckActions';
+
+const WINDOW_WIDTH = Dimensions.get('window').width;
+const WINDOW_HEIGHT = Dimensions.get('window').height;
 class NewDeckScreen extends Component {
   state = {
-    deckName: ""
+    deckName: ''
   };
 
   handleTextChange = text => {
@@ -21,8 +23,8 @@ class NewDeckScreen extends Component {
   };
 
   onSubmit = () => {
-    addDeck(this.state.deckName);
-    this.props.navigation.navigate("Decks", { updated: true });
+    this.props.addDeck(this.state.deckName);
+    this.props.navigation.navigate('Decks', { updated: true });
   };
   render() {
     const { deckName } = this.state;
@@ -45,17 +47,17 @@ class NewDeckScreen extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   input: {
     marginTop: 100,
     borderWidth: 1,
-    borderColor: "black",
-    textAlign: "center",
+    borderColor: 'black',
+    textAlign: 'center',
     width: WINDOW_WIDTH * 0.9,
     height: 40
   }
 });
-export default NewDeckScreen;
+export default connect(null, { addDeck })(NewDeckScreen);

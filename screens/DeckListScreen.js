@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 
-import { setDecks } from '../store/actions/deckActions';
+import { getDecks } from '../store/actions/deckActions';
 
 const WINDOW_WIDTH = Dimensions.get('window').width;
 const WINDOW_HEIGHT = Dimensions.get('window').height;
@@ -22,33 +22,7 @@ class DeckListScreen extends Component {
   };
 
   componentDidMount() {
-    this.updateDeckList();
-  }
-  componentDidUpdate(prevProps) {
-    if (prevProps.isFocused !== this.props.isFocused) {
-      console.warn('worked');
-    }
-  }
-
-  // componentWillReceiveProps(nextProps) {
-  //   try {
-  //     if (nextProps.navigation.state.params.updated) {
-  //       this.setState({ updated: true });
-  //       console.warn("Changed");
-  //     }
-  //   } catch () {}
-  // AsyncStorage.getItem("decks", (err, result) => {
-  //   if (!err) {
-  //     console.warn("Hello");
-  //     if (JSON.stringify(prevState.decks) !== result) {
-  //       this.setState({ decks: JSON.parse(result) });
-  //     }
-  //   }
-  // });
-  // }
-
-  updateDeckList() {
-    this.props.setDecks();
+    this.props.getDecks();
   }
 
   render() {
@@ -84,7 +58,7 @@ const mapStateToProps = state => ({
   decks: state.decks
 });
 
-export default connect(mapStateToProps, { setDecks })(DeckListScreen);
+export default connect(mapStateToProps, { getDecks })(DeckListScreen);
 
 const styles = StyleSheet.create({
   container: {
